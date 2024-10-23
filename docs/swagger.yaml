@@ -1,0 +1,815 @@
+definitions:
+  model.AnswerJson:
+    properties:
+      examID:
+        type: integer
+      img:
+        items:
+          type: string
+        type: array
+    type: object
+  model.ClassJson:
+    properties:
+      name:
+        type: string
+      teacherID:
+        type: integer
+    type: object
+  model.CutMg:
+    properties:
+      cut:
+        items:
+          type: string
+        type: array
+      examID:
+        type: string
+    type: object
+  model.Exam:
+    properties:
+      createTime:
+        type: integer
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      state:
+        type: integer
+      subjects:
+        type: string
+    type: object
+  model.PaperJson:
+    properties:
+      examID:
+        type: integer
+      imgs:
+        items:
+          type: string
+        type: array
+      maxMark:
+        items:
+          type: integer
+        type: array
+      ownerID:
+        type: integer
+    type: object
+  model.UserJson:
+    properties:
+      avatar:
+        type: string
+      captcha:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      passWord:
+        type: string
+      role:
+        type: integer
+      uid:
+        example: "0"
+        type: string
+      userName:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/c/all:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取所有班级ID
+      tags:
+      - Class
+  /api/c/info:
+    post:
+      parameters:
+      - description: 班级ID列表
+        in: body
+        name: classIDs
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取班级信息
+      tags:
+      - Class
+  /api/c/mg/add:
+    post:
+      parameters:
+      - description: 班级验证码
+        in: formData
+        name: classToken
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 加入班级
+      tags:
+      - Class
+  /api/c/mg/clear:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: integer
+      - description: 班级ID
+        in: formData
+        name: studentID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 将学生请出班级
+      tags:
+      - Class
+  /api/c/mg/quit:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 离开班级
+      tags:
+      - Class
+  /api/c/mg/score:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: string
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 查询班级某次考试的成绩
+      tags:
+      - Class
+  /api/c/mg/sh:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: string
+      - description: 查询的数目
+        in: formData
+        name: "n"
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 查询班级最近n次的考试成绩
+      tags:
+      - Class
+  /api/c/new:
+    post:
+      parameters:
+      - description: 班级信息
+        in: body
+        name: classMg
+        required: true
+        schema:
+          $ref: '#/definitions/model.ClassJson'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 创建班级
+      tags:
+      - Class
+  /api/c/rc:
+    post:
+      parameters:
+      - description: 班级信息
+        in: body
+        name: classMg
+        required: true
+        schema:
+          $ref: '#/definitions/model.ClassJson'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 修改班级信息
+      tags:
+      - Class
+  /api/exam/all:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取所有考试ID
+      tags:
+      - Exam
+  /api/exam/delete:
+    post:
+      parameters:
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 删除考试
+      tags:
+      - Exam
+  /api/exam/info:
+    post:
+      parameters:
+      - description: 考试ID列表
+        in: body
+        name: examIDs
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取考试信息
+      tags:
+      - Exam
+  /api/exam/mg/join:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: integer
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 班级加入考试
+      tags:
+      - Exam
+  /api/exam/mg/num:
+    post:
+      parameters:
+      - description: 数据类型 student teacher task
+        in: formData
+        name: type
+        required: true
+        type: string
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取考试相关的数据
+      tags:
+      - Exam
+  /api/exam/mg/plan:
+    post:
+      parameters:
+      - description: 改卷任务分段点数组
+        in: body
+        name: cut
+        required: true
+        schema:
+          $ref: '#/definitions/model.CutMg'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 分发考试任务
+      tags:
+      - Exam
+  /api/exam/mg/quit:
+    post:
+      parameters:
+      - description: 班级ID
+        in: formData
+        name: classID
+        required: true
+        type: integer
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 班级退出考试
+      tags:
+      - Exam
+  /api/exam/mg/score:
+    post:
+      parameters:
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取某一考试所有人的考试成绩
+      tags:
+      - Exam
+  /api/exam/new:
+    post:
+      parameters:
+      - description: 考试信息
+        in: body
+        name: exam
+        required: true
+        schema:
+          $ref: '#/definitions/model.Exam'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 创建考试
+      tags:
+      - Exam
+  /api/exam/re:
+    post:
+      parameters:
+      - description: 考试信息
+        in: body
+        name: exam
+        required: true
+        schema:
+          $ref: '#/definitions/model.Exam'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 修改考试信息
+      tags:
+      - Exam
+  /api/paper/all:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取所有试卷的ID
+      tags:
+      - Paper
+  /api/paper/delete:
+    post:
+      parameters:
+      - description: 试卷ID
+        in: formData
+        name: paperID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 删除试卷
+      tags:
+      - Paper
+  /api/paper/info:
+    post:
+      parameters:
+      - description: 试卷ID列表
+        in: body
+        name: paperIDs
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取试卷信息
+      tags:
+      - Paper
+  /api/paper/na:
+    post:
+      parameters:
+      - description: 试卷信息列表
+        in: body
+        name: answers
+        required: true
+        schema:
+          $ref: '#/definitions/model.AnswerJson'
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 添加试卷答案
+      tags:
+      - Paper
+  /api/paper/new:
+    post:
+      parameters:
+      - description: 试卷信息列表
+        in: body
+        name: papers
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.PaperJson'
+          type: array
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 添加试卷
+      tags:
+      - Paper
+  /api/paper/sum:
+    post:
+      parameters:
+      - description: 试卷ID
+        in: body
+        name: paperIDs
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 更新试卷的总分
+      tags:
+      - Paper
+  /api/seisei/as:
+    post:
+      parameters:
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取试卷答案
+      tags:
+      - Teacher
+  /api/seisei/mark:
+    post:
+      parameters:
+      - description: 部分试卷ID
+        in: formData
+        name: partID
+        required: true
+        type: integer
+      - description: 分数
+        in: formData
+        name: mark
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 为单题打分
+      tags:
+      - Teacher
+  /api/seisei/mission:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      responses: {}
+      summary: 获取改卷任务
+      tags:
+      - Teacher
+  /api/seisei/ms/exam:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 查看所在考试
+      tags:
+      - Teacher
+  /api/seisei/ms/fm:
+    post:
+      parameters:
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 完成阅卷任务
+      tags:
+      - Teacher
+  /api/seisei/ms/part:
+    post:
+      parameters:
+      - description: 考试ID
+        in: formData
+        name: examID
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 按任务阅卷
+      tags:
+      - Teacher
+  /api/stu/scores:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取学生成绩
+      tags:
+      - student
+  /api/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 文件数据
+        in: formData
+        name: data
+        required: true
+        type: file
+      - description: 文件类型 paper avatar answer
+        in: formData
+        name: type
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 上传文件
+      tags:
+      - Upload
+  /api/user/all:
+    post:
+      responses: {}
+      summary: 获取用户ID列表
+      tags:
+      - User
+  /api/user/c:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 获取用户所在的班级
+      tags:
+      - User
+  /api/user/check:
+    post:
+      parameters:
+      - description: 用户名
+        in: formData
+        name: userName
+        required: true
+        type: string
+      responses: {}
+      summary: 检验用户名
+      tags:
+      - User
+  /api/user/info:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      summary: 用户信息
+      tags:
+      - User
+  /api/user/list:
+    post:
+      parameters:
+      - description: 用户ID列表
+        in: body
+        name: IDs
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      responses: {}
+      summary: 用户信息列表
+      tags:
+      - User
+  /api/user/login:
+    post:
+      parameters:
+      - description: 用户名
+        in: formData
+        name: userName
+        required: true
+        type: string
+      - description: 密码
+        in: formData
+        name: passWord
+        required: true
+        type: string
+      responses: {}
+      summary: 登录
+      tags:
+      - User
+  /api/user/new:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: ud
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserJson'
+      responses: {}
+      summary: 用户注册
+      tags:
+      - User
+  /api/user/rv:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: ud
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserJson'
+      responses: {}
+      summary: 用户修改信息
+      tags:
+      - User
+  /api/user/verify:
+    post:
+      parameters:
+      - description: 用户名
+        in: formData
+        name: userName
+        required: true
+        type: string
+      - description: 邮箱
+        in: formData
+        name: email
+        required: true
+        type: string
+      responses: {}
+      summary: 用户验证
+      tags:
+      - User
+swagger: "2.0"
